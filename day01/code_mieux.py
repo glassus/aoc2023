@@ -1,11 +1,8 @@
 data = open('input.txt').read().splitlines()
 #data = open('input_test2.txt').read().splitlines()
 
-def is_number(c):
-    return 48 <= ord(c) <= 57
-
 def numbers(line):
-    return [c for c in line if is_number(c)]
+    return [c for c in line if c.isdigit()]
 
 def extremes(line):
     lst = numbers(line)
@@ -22,7 +19,6 @@ conv = {txt:txt[0]+str(num_text.index(txt)+1)+txt[-1] for txt in num_text}
 def transf(line):
     line_mod = ""
     while line_mod != line:
-        #print(line)
         line_mod = line
         for w in num_text:
             line = line.replace(w, conv[w])
