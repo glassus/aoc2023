@@ -1,0 +1,52 @@
+data = open('input.txt').read().splitlines()
+#data = open('input_test.txt').read().splitlines()
+
+points = {}
+for line in data:
+    k = line.split()
+    points[k[0]] = int(k[1])
+
+hands = list(points.keys())
+
+def make_dict(hand):
+    d = {}
+    for c in hand:
+        if c in d:
+            d[c] += 1
+        else:
+            d[c] = 1
+    return d
+
+
+
+def val_hand(hand):
+    d = make_dict(hand)
+    if len(d) == 1:
+        return 0
+    if len(d) == 2:
+        if max(d.values()) == 4:
+            return 1
+        return 2
+    if len(d) == 3:
+        if max(d.values()) == 3:
+            return 3
+        return 4
+    if len(d) == 4:
+        return 5
+    return 6
+
+def rank_tie(card):
+    alph = {'A':'a', 'K':'b', 'Q':'c', 'J':'d',\
+            'T':'e', '9':'f', '8':'g', '7':'h',\
+            '6':'i', '5':'j', '4':'k', '3':'l', '2':'m'}
+    return "".join(alph[k] for k in card)
+
+hands = sorted(hands, key= lambda x: (val_hand(x), rank_tie(x)))
+
+def total_winnings(hands):
+    s = 0
+    for i in range(len(hands)):
+        s += points[hands[i]] * (len(hands)-i)
+    return s
+
+# 253960098 too high
